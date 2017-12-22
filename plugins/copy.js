@@ -2,9 +2,9 @@ const fs = require('fs');
 const mkdirp = require('mkdirp');
 const path = require('path');
 
-module.exports = function writer(opts) {
+module.exports = function reader(opts) {
     return (flowObj) => {
-        const { conf, filepath, result } = flowObj || {};
+        const { filepath } = flowObj;
 
         let outputPath = './';
         if (typeof opts === 'function') {
@@ -13,26 +13,20 @@ module.exports = function writer(opts) {
         else if (typeof opts === 'string') {
             outputPath = opts;
         }
-        else if (typeof opts === 'object') {
-            outputPath = opts.path;
-        }
 
         const outputDir = path.dirname(outputPath);
 
         return new Promise((resolve, reject) => {
-            if (!flowObj) {
-                return resolve();
+            const copy = () => {
+                const read = fs.createReadStream(filepath);
+                read.on('error', reject);
+
+                const writer = fs.createWriteStream(outputPath);
+                writer.on('error', reject);
+                writer.on("close", resolve);
+
+                read.pipe(writer);
             }
-
-            const write = () => {
-                fs.writeFile(outputPath, result, (err) => {
-                    if (err) {
-                        return reject(err);
-                    }
-
-                    resolve();
-                });
-            };
 
             // Ensure the directory exists
             if (!fs.existsSync(outputDir)) {
@@ -41,10 +35,10 @@ module.exports = function writer(opts) {
                         return reject(err);
                     }
 
-                    write();
+                    copy();
                 });
             } else {
-                write();
+                copy();
             }
         });
     };

@@ -13,6 +13,7 @@ Several common/basic plugins are provided natively.
 - **Babel** - Transpiles your javascript with babel.
 - **Reader** - Reads a file.
 - **Writer** - Writes a file.
+- **Copy** - Copies a file.
 
 ## Writing Plugins
 

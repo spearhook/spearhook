@@ -5,8 +5,11 @@ const glob = require('glob');
 const loadConfig = require('./lib/load-config');
 
 const watch = (conf) => {
-    chokidar.watch(conf.input).on('all', (event, filepath) => {
-        console.log(chalk.gray(`Processing changes to ${filepath}`));
+    chokidar.watch(conf.input, {
+        ignoreInitial: true
+    }).on('all', (event, filepath) => {
+        const relativePath = filepath.replace(process.cwd() + '/', '');
+        console.log(chalk.gray(`Processing changes to ${relativePath}`));
 
         flow(filepath, conf);
     });
@@ -19,7 +22,7 @@ const execute = (conf) => {
         }
 
         files.forEach(filepath => {
-            flow(filepath, conf);
+            flow(filepath, conf, true);
         });
     });
 }

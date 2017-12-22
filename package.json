@@ -1,7 +1,7 @@
 {
   "name": "@spearhook/spearhook",
   "version": "0.0.1",
-  "description": "A minimal non-bundling web app pipeline",
+  "description": "A minimal, pluggable, non-bundling web app pipeline",
   "main": "index.js",
   "author": "viveleroi",
   "license": "MIT",

@@ -1,5 +1,4 @@
 const babel = require('@babel/core');
-const path = require('path');
 
 module.exports = function(opts) {
     return (flowObj) => {

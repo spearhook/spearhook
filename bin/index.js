@@ -12,7 +12,12 @@ async function exec() {
     }
 
     spearhookConfigs.forEach(conf => {
-        spearhook[argv.w ? 'watch' : 'execute'](conf);
+        // Always perform an initial execution phase
+        spearhook.execute(conf);
+
+        if (argv.w) {
+            spearhook.watch(conf);
+        }
     });
 }
 
