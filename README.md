@@ -6,11 +6,32 @@ A minimal, pluggable, non-bundling web app pipeline.
 
 Some projects need an easy pipeline for AMD or other fully-split formats, without having to fight against a bundler.
 
+## Usage
+
+Install, via yarn `yarn add --dev @spearhook/spearhook` or NPM `npm install --save-dev @spearhook/spearhook`.
+
+Add a `spearhook.config.js` file to the root of your project.
+
+Configure a list of files and plugins to flow them through:
+
+```js
+export default {
+    input: 'src/app.js',
+    plugins: [
+        babel({
+            presets: ['@babel/preset-env']
+        }),
+        writer((filepath) => filepath.replace('src', 'dist'))
+    ]
+};
+```
+
+Run `spearhook`.
+
 ## Native Plugins
 
 Several common/basic plugins are provided natively.
 
-- **Babel** - Transpiles your javascript with babel.
 - **Reader** - Reads a file.
 - **Writer** - Writes a file.
 - **Copy** - Copies a file.
