@@ -16,14 +16,10 @@ const watch = (conf) => {
 }
 
 const execute = (conf) => {
-    glob(conf.input, (err, files) => {
-        if (err) {
-            throw err;
-        }
+    const files = Array.isArray(conf.input) ? conf.input : glob.sync(conf.input);
 
-        files.forEach(filepath => {
-            flow(filepath, conf, true);
-        });
+    files.forEach(filepath => {
+        flow(filepath, conf, true);
     });
 }
 
