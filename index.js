@@ -1,30 +1,9 @@
-const chalk = require('chalk');
-const chokidar = require('chokidar');
-const flow = require('./lib/flow');
-const glob = require('glob');
+const execute = require('./lib/execute');
 const loadConfig = require('./lib/load-config');
-
-const watch = (conf) => {
-    chokidar.watch(conf.input, {
-        ignoreInitial: true
-    }).on('all', (event, filepath) => {
-        const relativePath = filepath.replace(process.cwd() + '/', '');
-        console.log(chalk.gray(`Processing changes to ${relativePath}`));
-
-        flow(filepath, conf);
-    });
-}
-
-const execute = (conf) => {
-    const files = Array.isArray(conf.input) ? conf.input : glob.sync(conf.input);
-
-    files.forEach(filepath => {
-        flow(filepath, conf, true);
-    });
-}
+const watch = require('./lib/watch');
 
 module.exports = {
-    loadConfig,
     execute,
+    loadConfig,
     watch
-}
+};

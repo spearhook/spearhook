@@ -28,37 +28,28 @@ export default {
 
 Run `spearhook`.
 
-## Native Plugins
-
-Several common/basic plugins are provided natively.
-
-- **Reader** - Reads a file.
-- **Writer** - Writes a file.
-- **Copy** - Copies a file.
-
 ## Writing Plugins
 
 Create a new javascript file which exports a module.
 
 Each plugin has three core pieces:
 
-1. The initialization step, in which custom configuration options are provided.
-2. A flow execution step, which accepts per-file input/output to act on and returns a promise.
-3. Promise resolution/rejection. Any resolution argument should pass along an object. `{ conf, filepath, result}`
+1. The initialization function, in which custom configuration options are provided.
+2. A stream execution function, which returns a stream transformer.
+3. File contents/path actor.
 
 ```js
-module.exports = function(opts) {
-    return (flowObj) => {
-        const { filepath, conf } = flowObj;
+const through2 = require('through2');
 
-        return new Promise((resolve, reject) => {
-            // resolve/reject here
-            resolve({
-                conf,
-                filepath,
-                result: 'something'
-            });
+module.exports = function(opts) {
+    return () => {
+        return through2.obj((file, encoding, cb) => {
+            // transform file.contents, act on file.path, etc
+
+            cb(null, file);
         });
-    };
+    }
 };
 ```
+
+The `file` argument is a [Vinyl](https://github.com/gulpjs/vinyl) `File` object.
