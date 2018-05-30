@@ -6,7 +6,7 @@ const merge = require('merge-stream');
 const spearhook = require('../index');
 const through2 = require('through2');
 
-const maxLength = process.stdout.columns - 4;
+const maxLength = process.stdout.columns - 4 || 76;
 
 const execOpts = {
     basePath: process.cwd(),
