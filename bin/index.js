@@ -19,6 +19,7 @@ async function exec() {
     try {
         const configs = await spearhook.loadConfig();
         const stream = merge();
+        const liveWrite = typeof process.stdout.cursorTo === 'function' && typeof process.stdout.clearLine === 'function';
 
         configs.forEach(conf => {
             // Always perform an initial execution phase
@@ -48,19 +49,27 @@ async function exec() {
                 let pathStr = `Writing ${relativePath}`;
                 pathStr = pathStr.substring(0, maxLength) + (pathStr.length >= maxLength ? '...' : '');
 
-                process.stdout.cursorTo(0);
-                process.stdout.write(chalk.gray(pathStr));
-                process.stdout.clearLine(1);
+                if (liveWrite) {
+                    process.stdout.cursorTo(0);
+                    process.stdout.write(chalk.gray(pathStr));
+                    process.stdout.clearLine(1);
+                } else {
+                    console.log(chalk.gray(pathStr));
+                }
             }
 
             cb();
         }));
 
         stream.on('end', () => {
-            process.stdout.cursorTo(0);
-            process.stdout.write(chalk.green('Initial run completed!'));
-            process.stdout.clearLine(1);
-            process.stdout.write('\n');
+            if (liveWrite) {
+                process.stdout.cursorTo(0);
+                process.stdout.write(chalk.green('Initial run completed!'));
+                process.stdout.clearLine(1);
+                process.stdout.write('\n');
+            } else {
+                console.log(chalk.green('Initial run completed!'));
+            }
 
             if (argv.w) {
                 console.log(chalk.yellow('Watching for changes. Use CTRL-C to exit.'));
