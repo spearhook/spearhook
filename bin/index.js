@@ -10,6 +10,9 @@ const maxLength = process.stdout.columns - 4 || 76;
 
 const execOpts = {
     basePath: process.cwd(),
+    globOpts: {
+        allowEmpty: true
+    },
     initialRun: true,
     watch: argv.w,
     verbose: argv.v
