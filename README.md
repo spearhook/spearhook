@@ -42,13 +42,13 @@ Each plugin has three core pieces:
 const through2 = require('through2');
 
 module.exports = function(opts) {
-    return () => {
-        return through2.obj(function(file, encoding, cb) => {
-            // transform file.contents, act on file.path, etc
+    return () => through2.obj(function(file, encoding, cb) {
+        // transform file.contents, act on file.path, etc
 
-            cb(null, file);
-        });
-    }
+        // emit errors with this.emit('spearhook.error', ...);
+
+        cb(null, file);
+    });
 };
 ```
 
