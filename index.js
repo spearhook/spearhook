@@ -1,8 +1,8 @@
-const execute = require('./lib/execute');
-const loadConfig = require('./lib/load-config');
-const watch = require('./lib/watch');
+import execute from './lib/execute.js';
+import loadConfig from './lib/load-config.js';
+import watch from './lib/watch.js';
 
-module.exports = {
+export {
     execute,
     loadConfig,
     watch

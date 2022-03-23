@@ -1,6 +1,6 @@
-const concat = require('vinyl-fs-concat');
-const path = require('path');
-const through2 = require('through2');
+import concat from 'vinyl-fs-concat';
+import path from 'path';
+import through2 from 'through2';
 
 module.exports = function(filename) {
     return (conf) => {

@@ -1,10 +1,12 @@
 #!/usr/bin/env node
-const argv = require('optimist').argv;
-const chalk = require('chalk');
-const handlerError = require('../lib/handle-error');
-const merge = require('merge-stream');
-const spearhook = require('../index');
-const through2 = require('through2');
+import optimist from 'optimist';
+import chalk from 'chalk';
+import handleError from '../lib/handle-error.js';
+import merge from 'merge-stream';
+import * as spearhook from '../index.js';
+import through2 from 'through2';
+
+const { argv } = optimist;
 
 const maxLength = process.stdout.columns - 4 || 76;
 
@@ -79,7 +81,7 @@ async function exec() {
             }
         });
     } catch (e) {
-        handlerError(e);
+        handleError(e);
     }
 }
 

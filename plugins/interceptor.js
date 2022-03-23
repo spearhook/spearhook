@@ -1,4 +1,4 @@
-const through2 = require('through2');
+import through2 from 'through2';
 
 module.exports = function(interceptor) {
     return () => {
