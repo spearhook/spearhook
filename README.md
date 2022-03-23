@@ -39,9 +39,9 @@ Each plugin has three core pieces:
 3. File contents/path actor.
 
 ```js
-const through2 = require('through2');
+import through2 from 'through2';
 
-module.exports = function(opts) {
+export default function(opts) {
     return () => through2.obj(function(file, encoding, cb) {
         // transform file.contents, act on file.path, etc
 
